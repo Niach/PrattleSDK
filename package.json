@@ -1,0 +1,29 @@
+{
+  "name": "prattle-sdk",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "files": [
+    "dist"
+  ],
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rollup -c",
+    "watch": "rollup -cw"
+  },
+  "author": "Dennis Strähhuber",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/lokijs": "^1.5.2",
+    "rollup": "^1.8.0",
+    "rollup-plugin-typescript2": "^0.20.1",
+    "typescript": "^3.4.1"
+  },
+  "dependencies": {
+    "lokijs": "^1.5.6",
+    "loom-js": "^1.47.0",
+    "rxjs": "^6.4.0",
+    "web3": "^1.0.0-beta.51"
+  }
+}
