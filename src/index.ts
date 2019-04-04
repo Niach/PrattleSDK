@@ -15,11 +15,11 @@ export class PrattleSDK {
         this.storage.getInitialized().subscribe(initialized => {
             if (initialized) {
                 this.storage.getUserAddress().subscribe(async userAddress => {
-                    console.log('address:', userAddress);
-                    this.mainContract = new PrattleNetwork(this.mainContractAddress, this.web3, userAddress);
-                    console.dir(this.mainContract);
-                    await this.mainContract.init();
-
+                    if (userAddress) {
+                        console.log('address:', userAddress);
+                        this.mainContract = new PrattleNetwork(this.mainContractAddress, this.web3, userAddress);
+                        await this.mainContract.init();
+                    }
                 });
             }
         });

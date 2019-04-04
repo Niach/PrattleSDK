@@ -1,5 +1,5 @@
 import Loki from 'lokijs';
-import {AsyncSubject, BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import { Crypto } from "./Crypto";
 
 
@@ -25,7 +25,8 @@ export class Storage {
         this.initialized.subscribe((value => {
             if(value) {
                 this.privateKey.next(this.keys.findOne({type: KeyType.PrivateKey}));
-                this.userAddress.next(Crypto.getUserAddress(Crypto.getPublicKey(this.privateKey.value.value)));
+                const publicKey = Crypto.getPublicKey(Uint8Array.from(this.privateKey.value.value));
+                this.userAddress.next(Crypto.getUserAddress(publicKey));
             }
         }));
     }
@@ -36,7 +37,7 @@ export class Storage {
             this.keys = this.db.addCollection('keys');
             this.keys.insert({
                 type: KeyType.PrivateKey,
-                value: Crypto.generatePrivateKey()
+                value: Array.from(Crypto.generatePrivateKey())
             });
         }
         this.initialized.next(true);
@@ -54,9 +55,6 @@ export class Storage {
         return this.userAddress.asObservable();
     }
 
-
-
-
 }
 
 export enum KeyType {
@@ -65,5 +63,5 @@ export enum KeyType {
 
 export interface Key {
     type: KeyType,
-    value: Uint8Array
+    value: number[]
 }
