@@ -5,11 +5,12 @@ import { Crypto } from "./Crypto";
 
 export class Storage {
 
-    db: Loki;
-    keys: Collection<Key>;
-    initialized: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    private db: Loki;
+    private keys: Collection<Key>;
+    private initialized: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-    privateKey: BehaviorSubject<Key> = new BehaviorSubject<Key>(null);
+    private privateKey: BehaviorSubject<Key> = new BehaviorSubject<Key>(null);
+    private userAddress: BehaviorSubject<string> = new BehaviorSubject(null);
 
     constructor() {
         this.db = new Loki('Prattle', {
@@ -24,12 +25,9 @@ export class Storage {
         this.initialized.subscribe((value => {
             if(value) {
                 this.privateKey.next(this.keys.findOne({type: KeyType.PrivateKey}));
+                this.userAddress.next(Crypto.getUserAddress(Crypto.getPublicKey(this.privateKey.value.value)));
             }
         }));
-    }
-
-    getPrivateKey(): Observable<Key> {
-        return this.privateKey.asObservable();
     }
 
     init() {
@@ -43,6 +41,20 @@ export class Storage {
         }
         this.initialized.next(true);
     }
+
+    getInitialized(): Observable<boolean> {
+        return this.initialized.asObservable();
+    }
+
+    getPrivateKey(): Observable<Key> {
+        return this.privateKey.asObservable();
+    }
+
+    getUserAddress(): Observable<string> {
+        return this.userAddress.asObservable();
+    }
+
+
 
 
 }

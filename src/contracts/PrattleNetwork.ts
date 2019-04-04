@@ -1,5 +1,6 @@
 import {BaseContract} from "./BaseContract";
 import Web3 from "web3";
+import {Users} from "./Users";
 
 const ABI = [
     {
@@ -65,11 +66,15 @@ const ABI = [
 ];
 
 export class PrattleNetwork extends BaseContract {
+    private users: Users;
+
     constructor(contractAddress: string, web3: Web3, userAddress: string) {
         super(ABI, contractAddress, web3, userAddress);
     }
 
     async init(): Promise<void> {
+        const result = await this.contract.methods.users().call();
+        console.log(result);
 
     }
 
