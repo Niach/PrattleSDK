@@ -1,5 +1,5 @@
 import Web3 from "web3";
-import { Storage } from "./Storage";
+import {Key, Storage} from "./Storage";
 
 import {PrattleNetwork} from "./contracts/PrattleNetwork";
 
@@ -7,11 +7,26 @@ import {PrattleNetwork} from "./contracts/PrattleNetwork";
 export class PrattleSDK {
     mainContract: PrattleNetwork;
     public storage: Storage = new Storage();
-    constructor(private web3: Web3, private mainContractAddress: string) {
+    private web3: Web3;
+
+    constructor(private mainContractAddress: string) {
 
     }
 
-    public async init() {
+    public async initKeys(): Promise<Key> {
+        return new Promise<Key>(resolve => {
+            this.storage.getInitialized().subscribe(initialized => {
+                if (initialized) {
+                    this.storage.getPrivateKey().subscribe(privateKey => {
+                        resolve(privateKey);
+                    });
+                }
+            });
+        });
+    }
+
+    public async init(web3: Web3) {
+        this.web3 = web3;
         this.storage.getInitialized().subscribe(initialized => {
             if (initialized) {
                 this.storage.getUserAddress().subscribe(async userAddress => {

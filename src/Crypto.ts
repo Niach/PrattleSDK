@@ -1,4 +1,4 @@
-import {CryptoUtils, LocalAddress} from "loom-js/dist";
+import {CryptoUtils, LocalAddress} from "loom-js";
 
 
 export class  Crypto {

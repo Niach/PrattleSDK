@@ -1,4 +1,6 @@
 import typescript from 'rollup-plugin-typescript2'
+import esModuleInterop from 'rollup-plugin-es-module-interop'
+
 
 import pkg from './package.json'
 export default {
@@ -21,6 +23,7 @@ plugins: [
     typescript({
       typescript: require('typescript'),
     }),
+  esModuleInterop()
 
 ],
 }

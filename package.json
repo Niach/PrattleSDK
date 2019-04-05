@@ -17,6 +17,7 @@
   "devDependencies": {
     "@types/lokijs": "^1.5.2",
     "rollup": "^1.8.0",
+    "rollup-plugin-es-module-interop": "^1.0.0",
     "rollup-plugin-typescript2": "^0.20.1",
     "typescript": "^3.4.1"
   },

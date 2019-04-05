@@ -1,5 +1,7 @@
 import Web3 from "web3";
-import {Contract} from "web3-eth-contract/types";
+import {Contract} from '../../node_modules/web3-eth-contract/types/index';
+
+;
 
 export abstract class BaseContract {
     protected contract: Contract;

@@ -1,12 +1,14 @@
 import Loki from 'lokijs';
 import {BehaviorSubject, Observable} from "rxjs";
 import { Crypto } from "./Crypto";
+import {UserProfileModel} from "./contracts/UserProfile";
 
 
 export class Storage {
 
     private db: Loki;
     private keys: Collection<Key>;
+    private profiles: Collection<UserProfileModel>;
     private initialized: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
     private privateKey: BehaviorSubject<Key> = new BehaviorSubject<Key>(null);
@@ -40,6 +42,12 @@ export class Storage {
                 value: Array.from(Crypto.generatePrivateKey())
             });
         }
+
+        this.profiles = this.db.getCollection('profiles');
+        if (!this.profiles) {
+            this.profiles = this.db.addCollection('profiles');
+        }
+
         this.initialized.next(true);
     }
 
@@ -54,6 +62,11 @@ export class Storage {
     getUserAddress(): Observable<string> {
         return this.userAddress.asObservable();
     }
+
+    getUserProfile(address: string): Observable<UserProfileModel> {
+
+    }
+
 
 }
 

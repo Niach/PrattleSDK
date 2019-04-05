@@ -73,9 +73,10 @@ export class PrattleNetwork extends BaseContract {
     }
 
     async init(): Promise<void> {
-        //const result = await this.contract.methods.users().call();
-        //console.log(result);
-
+        const usersAddress = await this.contract.methods.users().call();
+        //TODO: test
+        console.log(usersAddress);
+        this.users = new Users(usersAddress, this.web3, this.userAddress);
     }
 
 }
